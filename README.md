@@ -16,8 +16,27 @@ The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned
 
 # Data Cleaning and Exploratory Data Analysis <br>
 ## Data Cleaning <br>
+1. After loading two datasets, a left merge operation is performed on the recipes dataset and the interactions dataset with respect to the recipe id to avoid accidentally dropping any recipe and keep all recipes in the data, observing that it is possible for some recipes have no rating or multiple ratings.
+2. Due to missing input of rating, ratings of zero are replaced with `np.NaN`.
+3. The average rating per recipe is calculated (especially for recipes that has multiple ratings) and added as a column which can be used as a feature.
+4. The head of the resulting cleaned data frame for relevant columns is shown as follows: <br>
+
+|    | name                                 |   n_ingredients |   n_steps |   rating |   filled_ratings |
+|---:|:-------------------------------------|----------------:|----------:|---------:|-----------------:|
+|  0 | 1 brownies in the world    best ever |               9 |        10 |        4 |                4 |
+|  1 | 1 in canada chocolate chip cookies   |              11 |        12 |        5 |                5 |
+|  2 | 412 broccoli casserole               |               9 |         6 |        5 |                5 |
+|  3 | 412 broccoli casserole               |               9 |         6 |        5 |                5 |
+|  4 | 412 broccoli casserole               |               9 |         6 |        5 |                5 |
 
 ## Univariate Analysis <br>
+
+<iframe
+  src="assets/ingredients_distribution.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ## Bivariate Analysis <br>
 
@@ -43,12 +62,7 @@ The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned
 
 
 
-<iframe
-  src="assets/ingredients_distribution.html"
-  width="800"
-  height="600"
-  frameborder="0"
-></iframe>
+
 
 Pivot_Table <br>
 
