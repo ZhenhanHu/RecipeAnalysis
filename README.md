@@ -1,7 +1,47 @@
 # Exploring the Relationship Between the Rating of Recipes and the Number of Ingredients and the Number of Steps
 
 # Introduction: <br>
-This project will explore whether or not the number of ingredients and the number of steps in a recipe affect its rating. The key question that is being asked here is: *How does the number of ingredients and the number of steps in a recipe affect its rating?* This question is important, especially for people who love cooking and trying to design a new recipe, as such a relationship provides a helpful insight into how complexity influences satisfaction. For example, If fewer ingredients correlate to a relatively high rating, the recipe designer might focus more on simplicity. On the other hand, if more ingredients correlate to a relatively high rating, designing complex recipes may be worth the effort.
+Food.com is an online platform where people can view various types of food recipes and communicate about their food preparation experience. Based on the recipe, users have the chance to leave their ratings and reviews on specific recipes. And these recipes can be characterized by some of their quantitative features such as the number of ingredients that need to be prepared, the total number of steps for the entire process, the number of times estimated to prepare the recipe, etc. Thus, some interesting questions can be raised to explore the relationship between these features and their rating, and a prediction model using regression, for example, can be established to train and fit for recipe rating analysis.
+
+This project will explore whether or not the number of ingredients in a recipe affects its rating. The key question that is being asked here is: **How does the number of ingredients in a recipe affect its rating?** This question is important, especially for people who love cooking and trying to design a new recipe, as such a relationship provides a helpful insight into how complexity influences satisfaction. If fewer ingredients correlate to a relatively high rating, the recipe designer might focus more on simplicity. On the other hand, if more ingredients correlate to a relatively high rating, designing complex recipes may be worth the effort.
+
+The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned, assessed, and used for model construction. These datasets were originally scraped and used in a recommender system research paper, "Generating Personalized Recipes from Historical User Preferences", by Majumder et al.
+
+`RAW_recipes` contains 83782 rows where each row represents a unique recipe and 12 columns where each column represents a unique descriptive feature. `RAW_interactions`, on the other hand, contains 731927 rows where each row represents a user commenting on a recipe (observation) and 5 columns on rating details. After the merge operation, there are 234429 rows, and the relevant columns are as follows:
+
+| Column | Description |
+| ----------- | ----------- |
+| `'n_ingredients'` | Number of ingredients in recipe |
+| `'n_steps'` | Number of steps in recipe |
+
+# Data Cleaning and Exploratory Data Analysis <br>
+## Data Cleaning <br>
+
+## Univariate Analysis <br>
+
+## Bivariate Analysis <br>
+
+## Interesting Aggregates <br>
+
+
+# Assessment of Missingness <br>
+## NMAR Analysis
+
+## Missingness Dependency
+
+# Hypothesis Testing <br>
+
+# Framing a Prediction Problem <br>
+
+# Baseline Model <br>
+
+# Final Model <br>
+
+# Fairness Analysis <br>
+
+
+
+
 
 <iframe
   src="assets/ingredients_distribution.html"
