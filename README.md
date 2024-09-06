@@ -1,4 +1,5 @@
-# Exploring the Relationship Between the Rating of Recipes and the Number of Ingredients and the Number of Steps
+# Recipe Analysis
+Exploring the Relationship Between the Rating of Recipes and the Number of Ingredients and the Number of Steps
 
 # Introduction: <br>
 Food.com is an online platform where people can view various types of food recipes and communicate about their food preparation experience. Based on the recipe, users have the chance to leave their ratings and reviews on specific recipes. And these recipes can be characterized by some of their quantitative features such as the number of ingredients that need to be prepared, the total number of steps for the entire process, the number of times estimated to prepare the recipe, etc. Thus, some interesting questions can be raised to explore the relationship between these features and their rating, and a prediction model using regression, for example, can be established to train and fit for recipe rating analysis.
@@ -38,10 +39,31 @@ The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned
   frameborder="0"
 ></iframe>
 
+<br>
+Based on the histogram above, most recipes tend to use between 8 to 12 ingredients, with a peak density of around 10 ingredients. The distribution is right-skewed, showing that fewer recipes use a very large number of ingredients.
+
+<iframe
+  src="assets/steps_distribution.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<br>
+Based on the histogram above, most recipes have between 5 and 15 steps, with the highest density around 10 steps. The distribution is right-skewed, showing that recipes with more than 20 steps are relatively less common.
 ## Bivariate Analysis <br>
 
-## Interesting Aggregates <br>
+<iframe
+  src="assets/grouped_ingredients_rating.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
+<br>
+Based on the scatter plot above, recipes with fewer than 10 ingredients generally have a slight decline in average ratings. As the number of ingredients increases beyond 10, the average rating starts to improve. Specifically, recipes with more than 20 ingredients generally have higher average ratings. Thus, this may indicate that more complex recipes are rated higher by users.
+
+## Interesting Aggregates <br>
 
 # Assessment of Missingness <br>
 ## NMAR Analysis
