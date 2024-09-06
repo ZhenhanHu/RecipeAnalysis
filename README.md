@@ -83,9 +83,12 @@ Based on the scatter plot above, recipes with fewer than 10 ingredients generall
 This is a portion (first 10 rows and first 10 columns) of the pivot table of `n_ingredients ` and `n_steps ` on average rating. For recipes with fewer ingredients, their average rating remains relatively high, especially for simpler recipes with fewer steps. Thus, this indicates that simpler recipes with fewer steps and ingredients tend to be highly rated while increasing steps for recipes with few ingredients tend to lower the ratings.
 
 # Assessment of Missingness <br>
-## NMAR Analysis
+## NMAR Analysis <br>
 
-## Missingness Dependency
+Due to the data generating process and the intention of people leaving reviews, the missingness mechanism for the column `rating` is Not Missing at Random (NMAR). People who are super unsatisfied or extremely satisfied tend to give ratings at two extreme ends, while people who think the recipe is just ok or have an indifferent attitude might have no strong intention to do so, and thus, are less likely  to leave some ratings. In other words, the chance that a rating is missing depends on the actual missing rating itself.
+
+## Missingness Dependency <br>
+
 
 # Hypothesis Testing <br>
 
