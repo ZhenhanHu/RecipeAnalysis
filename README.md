@@ -177,6 +177,11 @@ As we can see the distribution of the number of ingredients, we can make a compa
 The observed test statistic is 0.0086 and a permutation test with 500 repetitions is conducted and resulting in a p_value of 0.0, with the significance level of 0.05, thus we reject the null hypothesis. This implies that the number of ingredients may affect the recipe rating.
 
 # Framing a Prediction Problem <br>
+As we saw a positive correlation between the number of ingredients and average ratings in the "Bivariate Analysis" Section, as well as the proven existing relationship between these two columns in the "Hypothesis Test" Section, we can address the problem on how to predict recipe rating based on these relevant feature we explored.
+
+The response variable is `filled_ratings` as it is a good representation of the rating for each recipe, and being able to predict it helps us to understand user preferences and predict recipe success. The predictor variables can be the number of ingredients and the number of steps, which are features available before the rating is posted (Time of Prediction). Since the feature columns and response variables are all numerical/quantitative, a **regression** model can be built to fit and train. 
+
+Lastly, we can use **RMSE** to evaluate the model performance because it penalizes large errors more heavily. Additionally, we can compute **R^2** to assess the proportion of variance in ratings that the predictor model explains
 
 # Baseline Model <br>
 
