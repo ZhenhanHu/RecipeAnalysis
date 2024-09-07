@@ -225,3 +225,29 @@ RMSE on Train reduced 0.0006  <br>
 RMSE on Test reduced 0.0003  <br>
 
 # Fairness Analysis <br>
+To perform a “fairness analysis” of my Final Model from the previous step, we can ask the question “does my model perform worse for individuals in Group X than it does for individuals in Group Y?”
+
+**Two groups**:
+Since the median submitted date for recipes is around the year of 2009, here, we can define our two groups to be:
+“old recipes”: recipes before 2009
+“new recipes”: recipes after 2009
+
+**Evaluation Metric**:
+Since both RMSE and R^2 are valid evaluation metrics, we will use RMSE here.
+
+**Null Hypothesis**: Our model is fair. Its precision for old recipes and new recipes is roughly the same, and any differences are due to random chance.
+
+**Alternative Hypothesis**: Our model is unfair. Its RMSE for old recipes is lower than its precision for new recipes.
+
+**Test Statistic**: Difference between the RMSE among the rating predictions among the two groups
+
+**Significance Level**: 0.05
+
+Since the alternative hypothesis is on the direction of the RMSE of predictions for old recipes is lower than the RMSE of predictions for new recipes, and the test statistic is calculated by old_RMSE - new_RMSE, we want to find the proportion of the sampled test statistics that even extreme toward the lower end of the observed test statistic, however, after permutation of 100 times, the p_value found is 0.0, with a significance level of 0.05, we reject the Null Hypothesis, and the model might not be fair with respect to the submitted time.
+
+<iframe
+  src="assets/q8_rmse_permu.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
