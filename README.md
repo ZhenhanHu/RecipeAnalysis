@@ -2,11 +2,11 @@
 Exploring the Relationship Between the Rating of Recipes and the Number of Ingredients and the Number of Steps
 
 # Introduction: <br>
-Food.com is an online platform where people can view various types of food recipes and communicate about their food preparation experience. Based on the recipe, users have the chance to leave their ratings and reviews on specific recipes. And these recipes can be characterized by some of their quantitative features such as the number of ingredients that need to be prepared, the total number of steps for the entire process, the number of times estimated to prepare the recipe, etc. Thus, some interesting questions can be raised to explore the relationship between these features and their rating, and a prediction model using regression, for example, can be established to train and fit for recipe rating analysis.
+[Food.com](https://www.food.com/) is an online platform where people can view various types of food recipes and communicate about their food preparation experience. Based on the recipe, users have the chance to leave their ratings and reviews on specific recipes. And these recipes can be characterized by some of their quantitative features such as the number of ingredients that need to be prepared, the total number of steps for the entire process, the number of times estimated to prepare the recipe, etc. Thus, some interesting questions can be raised to explore the relationship between these features and their rating, and a prediction model using regression, for example, can be established to train and fit for recipe rating analysis.
 
-This project will explore whether or not the number of ingredients in a recipe affects its rating. The key question that is being asked here is: **How does the number of ingredients in a recipe affect its rating?** This question is important, especially for people who love cooking and trying to design a new recipe, as such a relationship provides a helpful insight into how complexity influences satisfaction. If fewer ingredients correlate to a relatively high rating, the recipe designer might focus more on simplicity. On the other hand, if more ingredients correlate to a relatively high rating, designing complex recipes may be worth the effort.
+This project will explore whether or not the number of ingredients and the number of steps for a recipe affect its rating. The key question that is being asked here is: **How does the number of ingredients and the number of steps in a recipe affect its rating?** This question is important, especially for people who love cooking and trying to design a new recipe, as such a relationship provides a helpful insight into how complexity influences satisfaction. If fewer ingredients or less number of steps correlate to a relatively high rating, the recipe designer might focus more on simplicity. On the other hand, if more ingredients correlate to a relatively high rating, designing complex recipes may be worth the effort.
 
-The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned, assessed, and used for model construction. These datasets were originally scraped and used in a recommender system research paper, "Generating Personalized Recipes from Historical User Preferences", by Majumder et al.
+The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned, assessed, and used for model construction. These datasets were originally scraped and used in a recommender system research paper, ["Generating Personalized Recipes from Historical User Preferences"](https://cseweb.ucsd.edu/~jmcauley/pdfs/emnlp19c.pdf), by Majumder et al.
 
 `RAW_recipes` contains 83782 rows where each row represents a unique recipe and 12 columns where each column represents a unique descriptive feature. `RAW_interactions`, on the other hand, contains 731927 rows where each row represents a user commenting on a recipe (observation) and 5 columns on rating details. After the merge operation, there are 234429 rows, and the relevant columns are as follows:
 
@@ -33,7 +33,7 @@ The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned
 ## Univariate Analysis <br>
 
 <iframe
-  src="assets/ingredients_distribution.html"
+  src="assets/q2_ing_distri.html"
   width="800"
   height="600"
   frameborder="0"
@@ -43,7 +43,7 @@ The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned
 Based on the histogram above, most recipes tend to use between 8 to 12 ingredients, with a peak density of around 10 ingredients. The distribution is right-skewed, showing that fewer recipes use a very large number of ingredients.
 
 <iframe
-  src="assets/steps_distribution.html"
+  src="assets/q2_steps_distri.html"
   width="800"
   height="600"
   frameborder="0"
@@ -55,7 +55,7 @@ Based on the histogram above, most recipes have between 5 and 15 steps, with the
 ## Bivariate Analysis <br>
 
 <iframe
-  src="assets/grouped_ingredients_rating.html"
+  src="assets/q2_ingre_rating.html"
   width="800"
   height="600"
   frameborder="0"
@@ -88,7 +88,74 @@ This is a portion (first 10 rows and first 10 columns) of the pivot table of `n_
 Due to the data generating process and the intention of people leaving reviews, the missingness mechanism for the column `rating` is Not Missing at Random (NMAR). People who are super unsatisfied or extremely satisfied tend to give ratings at two extreme ends, while people who think the recipe is just ok or have an indifferent attitude might have no strong intention to do so, and thus, are less likely  to leave some ratings. In other words, the chance that a rating is missing depends on the actual missing rating itself.
 
 ## Missingness Dependency <br>
+Since the column of rating is missing many values,  we will perform permutation tests to analyze the dependency of its missingness on other columns.
 
+1. Dependency of rating missingness on the number of steps:
+Null Hypothesis: The missingness of ratings does NOT depend on the number of steps
+Alternative Hypothesis: The missingness of ratings does depend on the number of steps
+Test Statistic: The absolute difference between the mean of n_steps when the rating is missing and the mean of n_steps when the rating is not missing
+Significance Level: 0.01
+After finding the observed test statistic is around 1.68 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.0, thus we reject the null hypothesis and conclude that the missingness of rating depends on the number of steps
+
+<iframe
+  src="assets/q3_steps_permu.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The distribution of the number of steps when the rating is missing and the distribution of the number of steps when the rating is not missing is shown below, for better visualization, separate distributions are attached.
+
+<iframe
+  src="assets/q3_steps_stacked.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<iframe
+  src="assets/q3_steps_unstacked1.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<iframe
+  src="assets/q3_steps_unstacked2.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+2. Dependency of rating missingness on the amount of time:
+Null Hypothesis: The missingness of ratings does NOT depend on the amount of time
+Alternative Hypothesis: The missingness of ratings does depend on the amount of time
+Test Statistic: The absolute difference between the mean of minutes when the rating is missing and the mean of minutes when the rating is not missing
+Significance Level: 0.01
+After finding the observed test statistic is around 122.70 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.022, thus we do not reject the null hypothesis and conclude that the missingness of rating does not depend on minutes.
+
+<iframe
+  src="assets/q3_minutes_permu.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The distribution of the amount of time when the rating is missing and the distribution of the amount of time when the rating is not missing is shown below, for better visualization, separate distributions are attached.
+
+<iframe
+  src="assets/q3_minutes_unstacked1.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<iframe
+  src="assets/q3_minutes_unstacked2.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 # Hypothesis Testing <br>
 
