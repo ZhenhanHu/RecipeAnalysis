@@ -88,14 +88,14 @@ This is a portion (first 10 rows and first 10 columns) of the pivot table of `n_
 Due to the data generating process and the intention of people leaving reviews, the missingness mechanism for the column `rating` is Not Missing at Random (NMAR). People who are super unsatisfied or extremely satisfied tend to give ratings at two extreme ends, while people who think the recipe is just ok or have an indifferent attitude might have no strong intention to do so, and thus, are less likely  to leave some ratings. In other words, the chance that a rating is missing depends on the actual missing rating itself.
 
 ## Missingness Dependency <br>
-Since the column of rating is missing many values,  we will perform permutation tests to analyze the dependency of its missingness on other columns.
+Since the column of rating is missing many values,  we will perform permutation tests to analyze the dependency of its missingness on other columns. <br>
 
-1. Dependency of rating missingness on the number of steps:
-Null Hypothesis: The missingness of ratings does NOT depend on the number of steps
-Alternative Hypothesis: The missingness of ratings does depend on the number of steps
-Test Statistic: The absolute difference between the mean of n_steps when the rating is missing and the mean of n_steps when the rating is not missing
-Significance Level: 0.01
-After finding the observed test statistic is around 1.68 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.0, thus we reject the null hypothesis and conclude that the missingness of rating depends on the number of steps
+1. Dependency of rating missingness on the number of steps: <br>
+**Null Hypothesis**: The missingness of ratings does NOT depend on the number of steps <br>
+**Alternative Hypothesis**: The missingness of ratings does depend on the number of steps <br>
+**Test Statistic**: The absolute difference between the mean of n_steps when the rating is missing and the mean of n_steps when the rating is not missing <br>
+**Significance Level**: 0.01 <br>
+After finding the observed test statistic is around 1.68 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.0, thus we reject the null hypothesis and conclude that the missingness of rating depends on the number of steps <br>
 
 <iframe
   src="assets/q3_steps_permu.html"
@@ -104,7 +104,7 @@ After finding the observed test statistic is around 1.68 and a list of sample te
   frameborder="0"
 ></iframe>
 
-The distribution of the number of steps when the rating is missing and the distribution of the number of steps when the rating is not missing is shown below, for better visualization, separate distributions are attached.
+The distribution of the number of steps when the rating is missing and the distribution of the number of steps when the rating is not missing is shown below, for better visualization, separate distributions are attached. <br>
 
 <iframe
   src="assets/q3_steps_stacked.html"
@@ -127,12 +127,14 @@ The distribution of the number of steps when the rating is missing and the distr
   frameborder="0"
 ></iframe>
 
-2. Dependency of rating missingness on the amount of time:
-Null Hypothesis: The missingness of ratings does NOT depend on the amount of time
-Alternative Hypothesis: The missingness of ratings does depend on the amount of time
-Test Statistic: The absolute difference between the mean of minutes when the rating is missing and the mean of minutes when the rating is not missing
-Significance Level: 0.01
-After finding the observed test statistic is around 122.70 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.022, thus we do not reject the null hypothesis and conclude that the missingness of rating does not depend on minutes.
+<br>
+
+2. Dependency of rating missingness on the amount of time: <br>
+**Null Hypothesis**: The missingness of ratings does NOT depend on the amount of time <br>
+**Alternative Hypothesis**: The missingness of ratings does depend on the amount of time <br>
+**Test Statistic**: The absolute difference between the mean of minutes when the rating is missing and the mean of minutes when the rating is not missing <br>
+**Significance Level**: 0.01 <br>
+After finding the observed test statistic is around 122.70 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.022, thus we do not reject the null hypothesis and conclude that the missingness of rating does not depend on minutes. <br>
 
 <iframe
   src="assets/q3_minutes_permu.html"
@@ -141,7 +143,7 @@ After finding the observed test statistic is around 122.70 and a list of sample 
   frameborder="0"
 ></iframe>
 
-The distribution of the amount of time when the rating is missing and the distribution of the amount of time when the rating is not missing is shown below, for better visualization, separate distributions are attached.
+The distribution of the amount of time when the rating is missing and the distribution of the amount of time when the rating is not missing is shown below, for better visualization, separate distributions are attached. <br>
 
 <iframe
   src="assets/q3_minutes_unstacked1.html"
