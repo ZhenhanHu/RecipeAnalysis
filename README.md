@@ -165,7 +165,7 @@ The distribution of the amount of time when the rating is missing and the distri
 
 **Alternative Hypothesis**: The number of ingredients does affect the recipe rating. In other words, recipes with different numbers of ingredients have different average ratings.
 
-As we can see the distribution of the number of ingredients, we can make a comparison between two groups, the ones with a low number of ingredients (less than 9 ingredients), and the ones with a high number of ingredients (10 ingredients or more). Thus, a plausible test statistic would be the absolute difference in the mean ratings among these two groups.
+As we can see the distribution of the number of ingredients, we can make a comparison between two groups, the ones with a low number of ingredients (less than 9 ingredients), and the ones with a high number of ingredients (10 ingredients or more). Thus, a plausible test statistic would be the absolute difference in the mean ratings among these two groups. The mean is a common measure of central tendency and provides a summary of the typical rating for each group, but we use the absolute difference in mean instead of just the difference in mean as it allows us to capture any difference between the two groups, regardless of direction. We are measuring the extent to which the two groups are distinct in terms of their ratings by focusing on the magnitude of the difference.
 
 <iframe
   src="assets/q4_ingre_permu.html"
