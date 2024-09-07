@@ -21,7 +21,7 @@ The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned
 # Data Cleaning and Exploratory Data Analysis <br>
 ## Data Cleaning <br>
 1. After loading two datasets, a left merge operation is performed on the recipes dataset and the interactions dataset with respect to the recipe id to avoid accidentally dropping any recipe and keep all recipes in the data, observing that it is possible for some recipes have no rating or multiple ratings.
-2. Due to missing input of rating, ratings of zero are replaced with `np.NaN`.
+2. Due to missing input of rating, ratings of zero are replaced with `np.NaN` as valid ratings typically ranging between 1 and 5.
 3. The average rating per recipe is calculated (especially for recipes that has multiple ratings) and added as a column which can be used as a feature.
 4. The head of the resulting cleaned data frame for relevant columns is shown as follows: <br>
 
@@ -134,7 +134,7 @@ The distribution of the number of steps when the rating is missing and the distr
 **Alternative Hypothesis**: The missingness of ratings does depend on the amount of time <br>
 **Test Statistic**: The absolute difference between the mean of minutes when the rating is missing and the mean of minutes when the rating is not missing <br>
 **Significance Level**: 0.01 <br>
-After finding the observed test statistic is around 122.70 and a list of sample test statistics from 500 repetitions of shuffling, **the p_value is 0.022**, thus we do not reject the null hypothesis and the result implies that the missingness of rating does not depend on minutes. <br>
+After finding the observed test statistic is around 122.70 and a list of sample test statistics from 500 repetitions of shuffling, **the p_value is 0.024**, thus we do not reject the null hypothesis and the result implies that the missingness of rating does not depend on minutes. <br>
 
 <iframe
   src="assets/q3_minutes_permu.html"
@@ -169,7 +169,7 @@ The distribution of the amount of time when the rating is missing and the distri
 
 **Significance Level**: 0.05
 
-Explanation: As we can see the distribution of the number of ingredients in the "Univariate Analysis" Section, we can make a comparison between two groups, the ones with a low number of ingredients (less than 9 ingredients), and the ones with a high number of ingredients (10 ingredients or more). Thus, a plausible test statistic would be the absolute difference in the mean ratings among these two groups. The mean is a common measure of central tendency and provides a summary of the typical rating for each group, but we use the absolute difference in mean instead of just the difference in mean as it allows us to capture any difference between the two groups, regardless of direction. We are measuring the extent to which the two groups are distinct in terms of their ratings by focusing on the magnitude of the difference.
+Explanation: As we can see the distribution of the number of ingredients in the "Univariate Analysis" Section, we can make a comparison between two groups, the ones with a low number of ingredients (less than 9 ingredients), and the ones with a high number of ingredients (9 ingredients or more). Thus, a plausible test statistic would be the absolute difference in the mean ratings among these two groups. The mean is a common measure of central tendency and provides a summary of the typical rating for each group, but we use the absolute difference in mean instead of just the difference in mean as it allows us to capture any difference between the two groups, regardless of direction. We are measuring the extent to which the two groups are distinct in terms of their ratings by focusing on the magnitude of the difference.
 
 <iframe
   src="assets/q4_ingre_permu.html"
@@ -178,7 +178,7 @@ Explanation: As we can see the distribution of the number of ingredients in the 
   frameborder="0"
 ></iframe>
 
-The observed test statistic is 0.0086 and a permutation test with 500 repetitions is conducted and resulting in a **p_value of 0.0**, with the significance level of 0.05, thus we reject the null hypothesis. This implies that the number of ingredients may affect the recipe rating.
+The observed test statistic is 0.008 and a permutation test with 500 repetitions is conducted and resulting in a **p_value of 0.0**, with the significance level of 0.05, thus we reject the null hypothesis. This implies that the number of ingredients may affect the recipe rating.
 
 # Framing a Prediction Problem <br>
 As we saw a positive correlation between the number of ingredients and average ratings in the "Bivariate Analysis" Section, as well as the proven existing relationship between these two columns in the "Hypothesis Test" Section, we can address the problem of **how to predict recipe rating based on these relevant features we explored?**
@@ -198,7 +198,7 @@ A Linear Regression is built as the baseline model, two features are used, `n_in
 | `'n_ingredients'`| Number of ingredients in recipe | quantitative  |
 | `'n_steps'`      | Number of steps in recipe       | quantitative  |
 
-The baseline model performance is not good since the R^2 for the training dataset and the testing dataset are 3.77e-05 and -1.09e-05, respectively, which indicates the model poorly explains the variance in the target variable; and the RMSE for the training dataset and the testing dataset are 0.50 and 0.49 respectively, which also indicates bad performance with the average magnitude of the prediction errors being high.
+The baseline model performance is not good since the R^2 for the training dataset and the testing dataset are around 4.02e-05 and 4.27e-07, respectively, which indicates the model poorly explains the variance in the target variable; and the RMSE for the training dataset and the testing dataset are around 0.50 and 0.49 respectively, which also indicates bad performance with the average magnitude of the prediction errors being high.
 
 # Final Model <br>
 Two new features are considered in the new model, `minutes` and `submitted` as described as follows:  <br>
@@ -217,11 +217,11 @@ Adding the new feature on the date the recipe was submitted and its year is extr
 Besides using vanilla linear regression with features standardized in the baseline model, I tried Ridge Regression as the modeling algorithm instead as it added an L2 regularization term to penalize large coefficients. Since the number of ingredients and the number of steps have some correlation, using Ridge helps to eliminate multicollinearity and prevents overfitting, thus making better predictions on unseen data
 
 **Best Hyperparameter and Selection Method**  <br>
-The hyperparameter alpha, which controls the strength of regularization, is tuned here. As a result, the hyperparameter that performs the best is when alpha = 0.01. GridSearchCV is used to find the best hyperparameters and 5-fold cross-validation is performed to select the potential value for alpha from [0.01, 0.1, 1.0, 10]
+The hyperparameter alpha, which controls the strength of regularization, is tuned here. As a result, the hyperparameter that performs the best is when alpha = 0.1. GridSearchCV is used to find the best hyperparameters and 5-fold cross-validation is performed to select the potential value for alpha from [0.01, 0.05, 0.1, 1.0]
 
 **Performance Evaluation** <br>
-R^2 on Train improved from 3.77e-5 to 0.0028  <br>
-R^2 on Test improved from -1.09e-05 to 0.0014 (Still very low, but no longer negative)  <br>
+R^2 on Train improved from 4.02e-05 to 0.0028  <br>
+R^2 on Test improved from 4.27e-07 to 0.0015  <br>
 RMSE on Train reduced 0.0006  <br>
 RMSE on Test reduced 0.0003  <br>
 
