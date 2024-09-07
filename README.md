@@ -1,6 +1,7 @@
 # Recipe Analysis
 Exploring the Relationship Between the Rating of Recipes and the Number of Ingredients and the Number of Steps <br>
-[Full Report](https://zhenhanhu.github.io/RecipeAnalysis/)
+[Full Report](https://zhenhanhu.github.io/RecipeAnalysis/) <br>
+By Zhenhan Hu
 
 # Introduction: <br>
 [Food.com](https://www.food.com/) is an online platform where people can view various types of food recipes and communicate about their food preparation experience. Based on the recipe, users have the chance to leave their ratings and reviews on specific recipes. And these recipes can be characterized by some of their quantitative features such as the number of ingredients that need to be prepared, the total number of steps for the entire process, the number of times estimated to prepare the recipe, etc. Thus, some interesting questions can be raised to explore the relationship between these features and their rating, and a prediction model using regression, for example, can be established to train and fit for recipe rating analysis.
