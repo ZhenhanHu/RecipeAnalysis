@@ -92,7 +92,7 @@ Since the column of rating is missing many values,  we will perform permutation 
 1. Dependency of rating missingness on the number of steps: <br>
 **Null Hypothesis**: The missingness of ratings does NOT depend on the number of steps <br>
 **Alternative Hypothesis**: The missingness of ratings does depend on the number of steps <br>
-**Test Statistic**: The absolute difference between the mean of n_steps when the rating is missing and the mean of n_steps when the rating is not missing <br>
+**Test Statistic**: The absolute difference between the mean of `n_steps` when the rating is missing and the mean of `n_steps` when the rating is not missing <br>
 **Significance Level**: 0.01 <br>
 After finding the observed test statistic is around 1.68 and a list of sample test statistics from 500 repetitions of shuffling, **the p_value is 0.0**, thus we reject the null hypothesis and the result implies that the missingness of rating depends on the number of steps <br>
 
@@ -190,7 +190,38 @@ Additionally, we can compute **R^2** to assess the proportion of variance in rat
 **Time of Prediction**: The number of ingredients and the number of steps are features available before the rating is posted, thus, the 'time of prediction' concern can be addressed.
 
 # Baseline Model <br>
+A Linear Regression is built as the baseline model, two features are used, `n_ingredients` and `n_steps` as described as follows:
+
+| Column           | Description                     | Type          |
+| :--------------  | ------------------------------: | ------------: | 
+| `'n_ingredients'`| Number of ingredients in recipe | quantitative  |
+| `'n_steps'`      | Number of steps in recipe       | quantitative  |
+
+The baseline model performance is not good since the R^2 for the training dataset and the testing dataset are 3.77e-05 and -1.09e-05, respectively, which indicates the model poorly explains the variance in the target variable; and the RMSE for the training dataset and the testing dataset are 0.50 and 0.49 respectively, which also indicates bad performance with the average magnitude of the prediction errors being high.
 
 # Final Model <br>
+Two new features are considered in the new model, `minutes` and `submitted` as described as follows:  <br>
+
+| Column          | Description                     |
+| :-------------- | ------------------------------: |
+|`'minutes'`| Minutes to prepare recipe |
+| `'submitted'`   | Date recipe was submitted       | 
+
+
+Adding the new feature on the time to prepare the recipe since the time it takes to prepare a recipe could also affect its rating, for example, shorter recipes may be more favored to people with limited time, while more complex, longer recipes might be favored by those who enjoy cooking. Such a feature is related to people's preferences and thus makes it a valuable predictor for ratings.  <br>
+Adding the new feature on the date the recipe was submitted and its year is extracted, as might reveal some food cooking trends over history, for example, some old recipes might be outdated or no longer favored by contemporary people.  <br>
+`minutes` and `submitted` complement `n_ingredients` and `n_steps` by providing more nuanced information. While the number of ingredients and steps tells us about the recipe’s complexity itself, the time to prepare and the era of submission tell us about how that complexity is perceived by people and how external factors such as trends might influence the rating.  <br>
+
+**Modeling Algorithm: Ridge Regression**  <br>
+Besides using vanilla linear regression with features standardized in the baseline model, I tried Ridge Regression as the modeling algorithm instead as it added an L2 regularization term to penalize large coefficients. Since the number of ingredients and the number of steps have some correlation, using Ridge helps to eliminate multicollinearity and prevents overfitting, thus making better predictions on unseen data
+
+**Best Hyperparameter and Selection Method**  <br>
+The hyperparameter alpha, which controls the strength of regularization, is tuned here. As a result, the hyperparameter that performs the best is when alpha = 0.01. GridSearchCV is used to find the best hyperparameters and 5-fold cross-validation is performed to select the potential value for alpha from [0.01, 0.1, 1.0, 10]
+
+**Performance Evaluation** <br>
+R^2 on Train improved from 3.77e-5 to 0.0028  <br>
+R^2 on Test improved from -1.09e-05 to 0.0014 (Still very low, but no longer negative)  <br>
+RMSE on Train reduced 0.0006  <br>
+RMSE on Test reduced 0.0003  <br>
 
 # Fairness Analysis <br>
