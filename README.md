@@ -8,12 +8,14 @@ This project will explore whether or not the number of ingredients and the numbe
 
 The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned, assessed, and used for model construction. These datasets were originally scraped and used in a recommender system research paper, ["Generating Personalized Recipes from Historical User Preferences"](https://cseweb.ucsd.edu/~jmcauley/pdfs/emnlp19c.pdf), by Majumder et al.
 
-`RAW_recipes` contains 83782 rows where each row represents a unique recipe and 12 columns where each column represents a unique descriptive feature. `RAW_interactions`, on the other hand, contains 731927 rows where each row represents a user commenting on a recipe (observation) and 5 columns on rating details. After the merge operation, there are 234429 rows, and the relevant columns are as follows:
+`RAW_recipes` contains **83782 rows** where each row represents a unique recipe and 12 columns where each column represents a unique descriptive feature. `RAW_interactions`, on the other hand, contains **731927 rows** where each row represents a user commenting on a recipe (observation) and 5 columns on rating details. After the merge operation, there are **234429 rows**, and the relevant columns are as follows:
 
 | Column | Description |
 | ----------- | ----------- |
 | `'n_ingredients'` | Number of ingredients in recipe |
 | `'n_steps'` | Number of steps in recipe |
+| `'minutes'` | Minutes to prepare recipe |
+| `'rating'` | Rating given |
 
 # Data Cleaning and Exploratory Data Analysis <br>
 ## Data Cleaning <br>
@@ -39,8 +41,7 @@ The data from two datasets, `RAW_recipes` and `RAW_interactions` will be cleaned
   frameborder="0"
 ></iframe>
 
-<br>
-Based on the histogram above, most recipes tend to use between 8 to 12 ingredients, with a peak density of around 10 ingredients. The distribution is right-skewed, showing that fewer recipes use a very large number of ingredients.
+Based on the histogram above, most recipes tend to use between 8 to 12 ingredients, with a peak density of around 9 ingredients. The distribution is right-skewed, showing that fewer recipes use a very large number of ingredients.
 
 <iframe
   src="assets/q2_steps_distri.html"
@@ -49,7 +50,6 @@ Based on the histogram above, most recipes tend to use between 8 to 12 ingredien
   frameborder="0"
 ></iframe>
 
-<br>
 Based on the histogram above, most recipes have between 5 and 15 steps, with the highest density around 10 steps. The distribution is right-skewed, showing that recipes with more than 20 steps are relatively less common.
 
 ## Bivariate Analysis <br>
@@ -61,7 +61,6 @@ Based on the histogram above, most recipes have between 5 and 15 steps, with the
   frameborder="0"
 ></iframe>
 
-<br>
 Based on the scatter plot above, recipes with fewer than 10 ingredients generally have a slight decline in average ratings. As the number of ingredients increases beyond 10, the average rating starts to improve. Specifically, recipes with more than 20 ingredients generally have higher average ratings. Thus, this may indicate that more complex recipes are rated higher by users.
 
 ## Interesting Aggregates <br>
@@ -85,7 +84,7 @@ This is a portion (first 10 rows and first 10 columns) of the pivot table of `n_
 # Assessment of Missingness <br>
 ## NMAR Analysis <br>
 
-Due to the data generating process and the intention of people leaving reviews, the missingness mechanism for the column `rating` is Not Missing at Random (NMAR). People who are super unsatisfied or extremely satisfied tend to give ratings at two extreme ends, while people who think the recipe is just ok or have an indifferent attitude might have no strong intention to do so, and thus, are less likely  to leave some ratings. In other words, the chance that a rating is missing depends on the actual missing rating itself.
+Due to the data generating process and the intention of people leaving reviews, the missingness mechanism for the column `rating` is **Not Missing at Random (NMAR)**. People who are super unsatisfied or extremely satisfied tend to give ratings at two extreme ends, while people who think the recipe is just ok or have an indifferent attitude might have no strong intention to do so, and thus, are less likely  to leave some ratings. In other words, the chance that a rating is missing depends on the actual missing rating itself.
 
 ## Missingness Dependency <br>
 Since the column of rating is missing many values,  we will perform permutation tests to analyze the dependency of its missingness on other columns. <br>
@@ -95,7 +94,7 @@ Since the column of rating is missing many values,  we will perform permutation 
 **Alternative Hypothesis**: The missingness of ratings does depend on the number of steps <br>
 **Test Statistic**: The absolute difference between the mean of n_steps when the rating is missing and the mean of n_steps when the rating is not missing <br>
 **Significance Level**: 0.01 <br>
-After finding the observed test statistic is around 1.68 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.0, thus we reject the null hypothesis and conclude that the missingness of rating depends on the number of steps <br>
+After finding the observed test statistic is around 1.68 and a list of sample test statistics from 500 repetitions of shuffling, **the p_value is 0.0**, thus we reject the null hypothesis and the result implies that the missingness of rating depends on the number of steps <br>
 
 <iframe
   src="assets/q3_steps_permu.html"
@@ -134,7 +133,7 @@ The distribution of the number of steps when the rating is missing and the distr
 **Alternative Hypothesis**: The missingness of ratings does depend on the amount of time <br>
 **Test Statistic**: The absolute difference between the mean of minutes when the rating is missing and the mean of minutes when the rating is not missing <br>
 **Significance Level**: 0.01 <br>
-After finding the observed test statistic is around 122.70 and a list of sample test statistics from 500 repetitions of shuffling, the p_value is 0.022, thus we do not reject the null hypothesis and conclude that the missingness of rating does not depend on minutes. <br>
+After finding the observed test statistic is around 122.70 and a list of sample test statistics from 500 repetitions of shuffling, **the p_value is 0.022**, thus we do not reject the null hypothesis and the result implies that the missingness of rating does not depend on minutes. <br>
 
 <iframe
   src="assets/q3_minutes_permu.html"
@@ -165,7 +164,11 @@ The distribution of the amount of time when the rating is missing and the distri
 
 **Alternative Hypothesis**: The number of ingredients does affect the recipe rating. In other words, recipes with different numbers of ingredients have different average ratings.
 
-As we can see the distribution of the number of ingredients, we can make a comparison between two groups, the ones with a low number of ingredients (less than 9 ingredients), and the ones with a high number of ingredients (10 ingredients or more). Thus, a plausible test statistic would be the absolute difference in the mean ratings among these two groups. The mean is a common measure of central tendency and provides a summary of the typical rating for each group, but we use the absolute difference in mean instead of just the difference in mean as it allows us to capture any difference between the two groups, regardless of direction. We are measuring the extent to which the two groups are distinct in terms of their ratings by focusing on the magnitude of the difference.
+**Test Statistic**: The absolute difference between the mean of the recipe group with a lower number of ingredients and the mean of the recipe group with a higher number of ingredients.
+
+**Significance Level**: 0.05
+
+Explanation: As we can see the distribution of the number of ingredients in the "Univariate Analysis" Section, we can make a comparison between two groups, the ones with a low number of ingredients (less than 9 ingredients), and the ones with a high number of ingredients (10 ingredients or more). Thus, a plausible test statistic would be the absolute difference in the mean ratings among these two groups. The mean is a common measure of central tendency and provides a summary of the typical rating for each group, but we use the absolute difference in mean instead of just the difference in mean as it allows us to capture any difference between the two groups, regardless of direction. We are measuring the extent to which the two groups are distinct in terms of their ratings by focusing on the magnitude of the difference.
 
 <iframe
   src="assets/q4_ingre_permu.html"
@@ -174,14 +177,17 @@ As we can see the distribution of the number of ingredients, we can make a compa
   frameborder="0"
 ></iframe>
 
-The observed test statistic is 0.0086 and a permutation test with 500 repetitions is conducted and resulting in a p_value of 0.0, with the significance level of 0.05, thus we reject the null hypothesis. This implies that the number of ingredients may affect the recipe rating.
+The observed test statistic is 0.0086 and a permutation test with 500 repetitions is conducted and resulting in a **p_value of 0.0**, with the significance level of 0.05, thus we reject the null hypothesis. This implies that the number of ingredients may affect the recipe rating.
 
 # Framing a Prediction Problem <br>
-As we saw a positive correlation between the number of ingredients and average ratings in the "Bivariate Analysis" Section, as well as the proven existing relationship between these two columns in the "Hypothesis Test" Section, we can address the problem on how to predict recipe rating based on these relevant feature we explored.
+As we saw a positive correlation between the number of ingredients and average ratings in the "Bivariate Analysis" Section, as well as the proven existing relationship between these two columns in the "Hypothesis Test" Section, we can address the problem of **how to predict recipe rating based on these relevant features we explored?**
 
-The response variable is `filled_ratings` as it is a good representation of the rating for each recipe, and being able to predict it helps us to understand user preferences and predict recipe success. The predictor variables can be the number of ingredients and the number of steps, which are features available before the rating is posted (Time of Prediction). Since the feature columns and response variables are all numerical/quantitative, a **regression** model can be built to fit and train. 
+The **response variable** is `filled_ratings` as it is a good representation of the rating for each recipe, and being able to predict it helps us to understand user preferences and predict recipe success. The **feature variables** can be the number of ingredients and the number of steps. Since the feature columns and response variables are all numerical/quantitative, a **regression** model can be built to fit and train. 
 
-Lastly, we can use **RMSE** to evaluate the model performance because it penalizes large errors more heavily. Additionally, we can compute **R^2** to assess the proportion of variance in ratings that the predictor model explains
+Lastly, we can use **RMSE** to evaluate the model performance because it penalizes large errors more heavily. Note: RMSE is the square root of MSE, which means RMSE has the same units as the dependent variable, and thus makes it easier to interpret in the context of the problem.
+Additionally, we can compute **R^2** to assess the proportion of variance in ratings that the predictor model explains.
+
+**Time of Prediction**: The number of ingredients and the number of steps are features available before the rating is posted, thus, the 'time of prediction' concern can be addressed.
 
 # Baseline Model <br>
 
