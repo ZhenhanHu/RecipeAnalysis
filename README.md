@@ -161,6 +161,21 @@ The distribution of the amount of time when the rating is missing and the distri
 
 # Hypothesis Testing <br>
 
+**Null Hypothesis**: The number of ingredients does not have any effect on the recipe rating. In other words, the average rating is the same regardless of the number of ingredients
+
+**Alternative Hypothesis**: The number of ingredients does affect the recipe rating. In other words, recipes with different numbers of ingredients have different average ratings.
+
+As we can see the distribution of the number of ingredients, we can make a comparison between two groups, the ones with a low number of ingredients (less than 9 ingredients), and the ones with a high number of ingredients (10 ingredients or more). Thus, a plausible test statistic would be the absolute difference in the mean ratings among these two groups.
+
+<iframe
+  src="assets/q4_ingre_permu.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The observed test statistic is 0.0086 and a permutation test with 500 repetitions is conducted and resulting in a p_value of 0.0, with the significance level of 0.05, thus we reject the null hypothesis. This implies that the number of ingredients may affect the recipe rating.
+
 # Framing a Prediction Problem <br>
 
 # Baseline Model <br>
